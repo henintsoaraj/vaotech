@@ -1,0 +1,24 @@
+services:
+
+  backend:
+    build: ./backend
+    stdin_open: true
+    tty: true
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+    command: python -m uvicorn app.main:app --host 0.0.0.0 --reload
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: vaotech
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user_password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
