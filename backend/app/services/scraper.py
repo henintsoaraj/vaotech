@@ -22,6 +22,11 @@ def fetch_hackernews():
 
 def save_articles(db, articles):
     for a in articles:
+
+        existing = db.query(Article).filter(Article.url == a["url"]).first()
+        if existing:
+            continue
+        
         article = Article(
             title = a["title"],
             url = a["url"],
